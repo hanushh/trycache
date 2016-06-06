@@ -13,10 +13,9 @@
             submitCsvBtn: $('#submitCsv'),
             csvTA: $('#csvTA'),
             dataTable: $('#dataTable'),
-            goBackBtn:$("#goBack"),
-            
-            textareaContainer:$("#textareaContainer"),
-            dataTableContainer:$("#dataTableContainer")
+            goBackBtn: $("#goBack"),
+            textareaContainer: $("#textareaContainer"),
+            dataTableContainer: $("#dataTableContainer")
         },
         initialize: function () {
             _this = this;
@@ -39,17 +38,18 @@
         },
         processCSV: function () {
             var data = Papa.parse(_this.el.csvTA.val(), {delimiter: ","});
-            console.log(data);
+            //console.log(data);
 
             _this.el.dataTable
                     .find("thead").html(_this.parseTableHeader(data['data']))
                     .end()
                     .find("tbody").html(_this.parseTableContent(data['data']));
-            _this.el.textareaContainer.slideUp(function(){
+
+            _this.el.textareaContainer.slideUp(function () {
                 _this.el.dataTableContainer.slideDown('fast');
             });
-            
-            
+
+
         },
         parseTableHeader: function (data) {
             var tr = $("<tr/>");
@@ -81,13 +81,22 @@
             return content;
 
         },
-        tableBackBtn:function(){
-            
-            _this.el.dataTableContainer.slideUp(function(){
+        addMarkers: function () {
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Hello World!'
+            });
+
+        },
+        tableBackBtn: function () {
+
+            _this.el.dataTableContainer.slideUp(function () {
                 _this.el.dataTableContainer.slideDown('fast');
             });
-            
-            
+
+
         }
 
     };
