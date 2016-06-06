@@ -13,7 +13,7 @@
             submitCsvBtn: $('#submitCsv'),
             csvTA: $('#csvTA'),
             dataTable: $('#dataTable'),
-            
+            goBackBtn:$("#goBack"),
             
             textareaContainer:$("#textareaContainer"),
             dataTableContainer:$("#dataTableContainer")
@@ -28,7 +28,7 @@
             }
 
             _this.el.submitCsvBtn.click(_this.processCSV);
-
+            _this.el.goBackBtn.click(_this.tableBackBtn);
         },
         initMap: function (position) {
             _this.map = new google.maps.Map(document.getElementById('mapContainer'), {
@@ -80,6 +80,14 @@
 
             return content;
 
+        },
+        tableBackBtn:function(){
+            
+            _this.el.dataTableContainer.slideUp(function(){
+                _this.el.dataTableContainer.slideDown('fast');
+            });
+            
+            
         }
 
     };
