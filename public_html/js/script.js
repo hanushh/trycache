@@ -102,7 +102,7 @@
         },
         generateInfoWindowContentString:function(data){
             
-            
+            return "test data";
         },
         addMarker: function (row) {
 
