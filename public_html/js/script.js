@@ -1,4 +1,4 @@
-/* 
+/* `
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,6 +17,7 @@
             textareaContainer: $("#textareaContainer"),
             dataTableContainer: $("#dataTableContainer")
         },
+        markers: [],
         initialize: function () {
             _this = this;
             if (navigator.geolocation)
@@ -44,7 +45,8 @@
                     .find("thead").html(_this.parseTableHeader(data['data']))
                     .end()
                     .find("tbody").html(_this.parseTableContent(data['data']));
-
+            
+            _this.addMarkers(data['data']);
             _this.el.textareaContainer.slideUp(function () {
                 _this.el.dataTableContainer.slideDown('fast');
             });
@@ -66,13 +68,9 @@
             data.forEach(function (row) {
                 var tr = $("<tr/>");
                 row.forEach(function (column) {
-
-
-                    var td = $("<td/>").text(column);
-
+                    
+                    var td = $("<td/>").html(_this.parseColumnContent(column));
                     td.appendTo(tr);
-
-
                 });
                 content.appendChild(tr[0]);
 
@@ -81,21 +79,45 @@
             return content;
 
         },
-        addMarkers: function () {
-
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                title: 'Hello World!'
-            });
-
+        parseColumnContent: function (data) {
+            if (data){
+                
+                return $("<img/>").attr("src", data);
+            } else {
+                return data;
+            }
+            
         },
+        addMarkers: function (data) {
+            _this.clearMarkers();
+            data.forEach(function (row) {
+
+                var marker = new google.maps.Marker({
+                    position: {lat: row[9], lng: row[10]},
+                    map: _this.map,
+                    title: row[1]
+                });
+                _this.markers.push(marker);
+            });
+        },
+        
         tableBackBtn: function () {
 
             _this.el.dataTableContainer.slideUp(function () {
-                _this.el.dataTableContainer.slideDown('fast');
+                _this.el.textareaContainer.slideDown('fast');
             });
 
+
+        },
+        
+        clearMarkers: function () {
+
+            while (_this.markers.length) {
+                (function () {
+                    var marker = _this.markers.pop();
+                    marker.setMap(null);
+                })();
+            }
 
         }
 
