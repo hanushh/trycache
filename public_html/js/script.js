@@ -33,7 +33,7 @@
         initMap: function (position) {
             _this.map = new google.maps.Map(document.getElementById('mapContainer'), {
                 center: {lat: position.coords.latitude, lng: position.coords.longitude},
-                zoom: 8
+                zoom: 6
             });
 
         },
@@ -80,9 +80,9 @@
 
         },
         parseColumnContent: function (data) {
-            if (data){
+            if (data.match(/\.(jpeg|jpg|gif|png)$/) != null){
                 
-                return $("<img/>").attr("src", data);
+                return $("<img/>").attr("src", data).addClass("img-responsive");
             } else {
                 return data;
             }
@@ -92,13 +92,15 @@
             _this.clearMarkers();
             data.forEach(function (row) {
 
-                var marker = new google.maps.Marker({
-                    position: {lat: row[9], lng: row[10]},
+                var latLng = new google.maps.LatLng(row[9], row[10]), 
+                marker = new google.maps.Marker({
+                    position: latLng,
                     map: _this.map,
                     title: row[1]
                 });
                 _this.markers.push(marker);
             });
+            _this.map.panTo(_this.markers[0].position);
         },
         
         tableBackBtn: function () {
