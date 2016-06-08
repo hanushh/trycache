@@ -106,7 +106,7 @@
 
         },
         generateInfoWindowContentString: function (data) {
-            debugger
+            
             if (typeof data !== "object"){
                 return "";
             }
